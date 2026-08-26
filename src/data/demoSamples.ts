@@ -5,6 +5,8 @@
 
 import { CropAnalysisInput, CropAnalysisResult } from '../types';
 import { TOMATO_EARLY_BLIGHT_IMAGE_DATA_URL } from './tomatoEarlyBlightImage';
+import { CUCUMBER_POWDERY_MILDEW_IMAGE_DATA_URL } from './cucumberPowderyMildewImage';
+import { BLURRED_BUSH_LEAVES_IMAGE_DATA_URL } from './blurredBushLeavesImage';
 import { APPLE_CEDAR_RUST_IMAGE_DATA_URL } from './appleCedarRustImage';
 
 export interface DemoSample {
@@ -22,65 +24,6 @@ function createSvgDataUrl(svgContent: string): string {
   const encoded = encodeURIComponent(svgContent.trim().replace(/\s+/g, ' '));
   return `data:image/svg+xml;charset=utf-8,${encoded}`;
 }
-
-const CUCUMBER_POWDERY_MILDEW_SVG = createSvgDataUrl(`
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
-  <defs>
-    <radialGradient id="cucBg" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#1a2e22"/>
-      <stop offset="100%" stop-color="#0f1912"/>
-    </radialGradient>
-    <radialGradient id="cucLeaf" cx="50%" cy="40%" r="60%">
-      <stop offset="0%" stop-color="#38a169"/>
-      <stop offset="70%" stop-color="#22543d"/>
-      <stop offset="100%" stop-color="#143425"/>
-    </radialGradient>
-    <radialGradient id="powderyPatch" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-      <stop offset="40%" stop-color="#f7fafc" stop-opacity="0.8"/>
-      <stop offset="75%" stop-color="#edf2f7" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="600" height="600" fill="url(#cucBg)"/>
-  <!-- Cucumber broad lobed leaf -->
-  <path d="M 300 500 C 180 500 80 400 90 280 C 100 200 180 140 240 180 C 270 120 330 120 360 180 C 420 140 500 200 510 280 C 520 400 420 500 300 500 Z" fill="url(#cucLeaf)" stroke="#143425" stroke-width="5"/>
-  <!-- Veins -->
-  <path d="M 300 490 L 300 190" stroke="#9ae6b4" stroke-width="4" opacity="0.6"/>
-  <path d="M 300 400 Q 200 350 140 320" stroke="#9ae6b4" stroke-width="3" opacity="0.5"/>
-  <path d="M 300 400 Q 400 350 460 320" stroke="#9ae6b4" stroke-width="3" opacity="0.5"/>
-  <path d="M 300 320 Q 210 240 160 210" stroke="#9ae6b4" stroke-width="3" opacity="0.5"/>
-  <path d="M 300 320 Q 390 240 440 210" stroke="#9ae6b4" stroke-width="3" opacity="0.5"/>
-  <!-- Powdery white talcum-like fungal blotches -->
-  <ellipse cx="230" cy="270" rx="55" ry="40" fill="url(#powderyPatch)"/>
-  <ellipse cx="370" cy="240" rx="65" ry="50" fill="url(#powderyPatch)"/>
-  <ellipse cx="290" cy="360" rx="75" ry="45" fill="url(#powderyPatch)"/>
-  <ellipse cx="410" cy="350" rx="45" ry="35" fill="url(#powderyPatch)"/>
-  <ellipse cx="180" cy="360" rx="40" ry="30" fill="url(#powderyPatch)"/>
-  <text x="30" y="565" fill="#cbd5e0" font-family="sans-serif" font-size="16" font-weight="bold">SAMPLE #2: Cucumber Powdery Mildew (Podosphaera xanthii)</text>
-</svg>
-`);
-
-const BLURRY_LEAF_SVG = createSvgDataUrl(`
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
-  <defs>
-    <filter id="severeBlur" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="18"/>
-    </filter>
-  </defs>
-  <rect width="600" height="600" fill="#2d3748"/>
-  <g filter="url(#severeBlur)">
-    <circle cx="300" cy="300" r="180" fill="#38a169"/>
-    <ellipse cx="260" cy="280" rx="140" ry="90" fill="#2f855a"/>
-    <circle cx="310" cy="290" r="60" fill="#744210"/>
-    <circle cx="360" cy="330" r="40" fill="#d69e2e"/>
-  </g>
-  <!-- Warning overlay banner -->
-  <rect x="50" y="440" width="500" height="90" rx="8" fill="#1a202c" fill-opacity="0.85" stroke="#e53e3e" stroke-width="2"/>
-  <text x="300" y="475" fill="#feb2b2" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">OPTICAL QUALITY TEST: Blurry / Out-of-Focus Image</text>
-  <text x="300" y="505" fill="#edf2f7" font-family="sans-serif" font-size="13" text-anchor="middle">Demonstrates the Confidence Gate rejecting low-resolution visual input</text>
-</svg>
-`);
 
 const CORN_NUTRIENT_DEFICIENCY_SVG = createSvgDataUrl(`
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
@@ -177,7 +120,7 @@ export const DEMO_SAMPLES: DemoSample[] = [
     badgeText: 'Moderate Confidence',
     category: 'actionable',
     input: {
-      image: CUCUMBER_POWDERY_MILDEW_SVG,
+      image: CUCUMBER_POWDERY_MILDEW_IMAGE_DATA_URL,
       cropName: 'Cucumber (Cucumis sativus)',
       symptoms: 'Circular powdery white talcum-powder-like patches appearing on upper surfaces of leaves. Leaves feeling brittle.',
       duration: '5 days',
@@ -239,7 +182,7 @@ export const DEMO_SAMPLES: DemoSample[] = [
     badgeText: 'Quality Gate Test',
     category: 'confidence_gate_image',
     input: {
-      image: BLURRY_LEAF_SVG,
+      image: BLURRED_BUSH_LEAVES_IMAGE_DATA_URL,
       cropName: 'Citrus / Lemon',
       symptoms: 'Spots visible from a distance but leaf was shaking in wind when photographed.',
       duration: '1 week',

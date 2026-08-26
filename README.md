@@ -165,6 +165,18 @@ npm start
   - **License:** [Creative Commons Attribution 3.0 United States (CC BY 3.0 US)](https://creativecommons.org/licenses/by/3.0/us/)
   - **License Link:** [https://creativecommons.org/licenses/by/3.0/us/](https://creativecommons.org/licenses/by/3.0/us/)
 
+- **Preset 2 Image (Cucumber / Melon Powdery Mildew — *Cucumis melo* powdery mildews, Family Erysiphaceae):**
+  - **Creator / Author:** M.E. Bartolo, Colorado State University, Bugwood.org (Image Number: 5362779)
+  - **Source Link:** [Wikimedia Commons — File:Cucumis melo - powdery mildews (Family Erysiphaceae)-M.E. Bartolo, Bugwood.jpg](https://commons.wikimedia.org/wiki/File:Cucumis_melo_-_powdery_mildews_(Family_Erysiphaceae)-M.E._Bartolo,_Bugwood.jpg) / [IPM Images / Bugwood #5362779](https://www.ipmimages.org/browse/detail.cfm?imgnum=5362779)
+  - **License:** [Creative Commons Attribution 3.0 Unported / United States (CC BY 3.0)](https://creativecommons.org/licenses/by/3.0/)
+  - **License Link:** [https://creativecommons.org/licenses/by/3.0/](https://creativecommons.org/licenses/by/3.0/)
+
+- **Preset 3 Image (Blurry Leaf Photo / Optical Quality Gate Test — *Blurred Bush Leaves*):**
+  - **Creator / Author:** Rebeltronic
+  - **Source Link:** [Wikimedia Commons — File:Blurred Bush Leaves.png](https://commons.wikimedia.org/wiki/File:Blurred_Bush_Leaves.png)
+  - **License:** [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+  - **License Link:** [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
+
 - **Preset 5 Image (Apple Cedar Rust — *Gymnosporangium juniperi-virginianae* on Crab Apple leaf upper surface):**
   - **Creator / Author:** Littleinfo
   - **Source:** [Wikimedia Commons — File:Cedar apple rust on crab apple leaf upper surface.JPG](https://commons.wikimedia.org/wiki/File:Cedar_apple_rust_on_crab_apple_leaf_upper_surface.JPG)
