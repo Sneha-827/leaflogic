@@ -1,5 +1,9 @@
 # LeafLogic — AI Crop Health Decision Support System
 
+AI-powered crop disease analysis for farmers.
+
+🌐 Live Demo: https://leaflogic-psi.vercel.app/
+
 > **Tagline:** *See the signs. Understand the risk. Act smarter.*
 
 LeafLogic is an **AI-powered crop health decision-support system** designed to assist farmers, agricultural extension agents, and agronomists in assessing crop health issues from leaf/crop photography paired with vital farm environmental context (rainfall, symptom duration, and irrigation methods).
