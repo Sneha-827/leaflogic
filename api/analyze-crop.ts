@@ -26,6 +26,7 @@ interface CropAnalysisRequestData {
   duration?: string;
   weather?: string;
   irrigation?: string;
+  language?: 'en' | 'te' | 'hi';
   additionalNotes?: string;
 }
 
@@ -306,7 +307,7 @@ export default async function handler(req: any, res: any) {
 
   try {
     const bodyData: CropAnalysisRequestData = await parseBody(req);
-    const { image, cropName, symptoms, duration, weather, irrigation, additionalNotes } = bodyData;
+    const { image, cropName, symptoms, duration, weather, irrigation, language, additionalNotes } = bodyData;
 
     // 1. Validate text inputs
     if (!cropName || typeof cropName !== 'string' || cropName.trim().length === 0) {
@@ -344,6 +345,14 @@ export default async function handler(req: any, res: any) {
       },
     });
 
+    const targetLang = language === 'te' ? 'Telugu (తెలుగు)' : language === 'hi' ? 'Hindi (हिन्दी)' : 'English';
+    const languageInstruction =
+      language === 'te'
+        ? `IMPORTANT LANGUAGE REQUIREMENT: You MUST output all diagnosis names, explanations, observed evidence, missing information, safe next steps, and reasons completely in Telugu (తెలుగు script). Keep scientific / botanical binomial names in parentheses where helpful (e.g., 'ఆల్టర్నేరియా సోలానీ (Alternaria solani)').`
+        : language === 'hi'
+        ? `IMPORTANT LANGUAGE REQUIREMENT: You MUST output all diagnosis names, explanations, observed evidence, missing information, safe next steps, and reasons completely in Hindi (हिन्दी script, Devanagari). Keep scientific / botanical binomial names in parentheses where helpful (e.g., 'अल्टरनेरिया सोलानी (Alternaria solani)').`
+        : `Language: English.`;
+
     const promptText = `Please evaluate this agricultural crop specimen:
 - Crop Type: ${cropName.trim()}
 - Observed Symptoms: ${symptoms.trim()}
@@ -351,8 +360,11 @@ export default async function handler(req: any, res: any) {
 - Recent Rainfall & Weather: ${weather ? weather.trim() : 'Not specified'}
 - Irrigation Method & Frequency: ${irrigation ? irrigation.trim() : 'Not specified'}
 - Additional Notes: ${additionalNotes ? additionalNotes.trim() : 'None'}
+- Target Language: ${targetLang}
 
-Examine the uploaded leaf/plant image carefully. Assess optical clarity, visible lesions, spots, discoloration, or structural abnormalities. Apply the Confidence Gate principles and return structured JSON.`;
+${languageInstruction}
+
+Examine the uploaded leaf/plant image carefully. Assess optical clarity, visible lesions, spots, discoloration, or structural abnormalities. Apply the Confidence Gate principles and return structured JSON. Ensure all descriptive text, advice, observed facts, and condition explanations are fully translated and localized in ${targetLang}.`;
 
     const modelsToAttempt = ['gemini-3.1-flash-lite', 'gemini-3.6-flash'];
     let lastError: any = null;

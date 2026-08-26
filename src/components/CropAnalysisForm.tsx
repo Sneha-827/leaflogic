@@ -17,8 +17,9 @@ import {
   Layers,
   FileText,
   CheckCircle,
+  Languages,
 } from 'lucide-react';
-import { CropAnalysisInput } from '../types';
+import { CropAnalysisInput, Language } from '../types';
 import { validateImageFile, optimizeImageForAnalysis, validateAnalysisInput } from '../utils/validation';
 
 interface CropAnalysisFormProps {
@@ -69,6 +70,7 @@ export const CropAnalysisForm: React.FC<CropAnalysisFormProps> = ({
   const [duration, setDuration] = useState<string>(initialInput?.duration || '');
   const [weather, setWeather] = useState<string>(initialInput?.weather || '');
   const [irrigation, setIrrigation] = useState<string>(initialInput?.irrigation || '');
+  const [language, setLanguage] = useState<Language>(initialInput?.language || 'en');
   const [additionalNotes, setAdditionalNotes] = useState<string>(initialInput?.additionalNotes || '');
 
   const [imageFileName, setImageFileName] = useState<string>('');
@@ -99,6 +101,7 @@ export const CropAnalysisForm: React.FC<CropAnalysisFormProps> = ({
       if (initialInput.duration !== undefined) setDuration(initialInput.duration);
       if (initialInput.weather !== undefined) setWeather(initialInput.weather);
       if (initialInput.irrigation !== undefined) setIrrigation(initialInput.irrigation);
+      if (initialInput.language !== undefined) setLanguage(initialInput.language);
       if (initialInput.additionalNotes !== undefined) setAdditionalNotes(initialInput.additionalNotes);
       setErrors({});
     }
@@ -238,6 +241,7 @@ export const CropAnalysisForm: React.FC<CropAnalysisFormProps> = ({
       duration: duration.trim(),
       weather: weather.trim(),
       irrigation: irrigation.trim(),
+      language,
       additionalNotes: additionalNotes.trim(),
     };
 
@@ -643,7 +647,42 @@ export const CropAnalysisForm: React.FC<CropAnalysisFormProps> = ({
             />
           </div>
 
-          {/* Section 6: Submit Button & Progress */}
+          {/* Section 6: Language Selection */}
+          <div className="space-y-2.5 pt-2">
+            <div className="flex items-center justify-between gap-2">
+              <label htmlFor="language-select" className="block text-xs sm:text-sm font-bold text-stone-900 flex items-center gap-1.5">
+                <Languages className="w-4 h-4 text-emerald-700 shrink-0" />
+                <span>Diagnosis Language</span>
+              </label>
+              <span className="text-[11px] text-stone-500">Multilingual Gemini Synthesis</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+              {[
+                { code: 'en' as Language, label: 'English', native: 'English' },
+                { code: 'te' as Language, label: 'Telugu', native: 'తెలుగు' },
+                { code: 'hi' as Language, label: 'Hindi', native: 'हिन्दी' },
+              ].map((lang) => (
+                <button
+                  type="button"
+                  key={lang.code}
+                  id={`lang-select-${lang.code}`}
+                  onClick={() => setLanguage(lang.code)}
+                  className={`flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-xl border transition cursor-pointer min-h-[52px] ${
+                    language === lang.code
+                      ? 'bg-emerald-50 border-emerald-600 text-emerald-950 font-bold ring-2 ring-emerald-600/20 shadow-2xs'
+                      : 'bg-stone-50/70 border-stone-200 text-stone-700 hover:bg-stone-100 hover:border-stone-300'
+                  }`}
+                >
+                  <span className="text-xs sm:text-sm font-bold">{lang.label}</span>
+                  <span className={`text-[11px] ${language === lang.code ? 'text-emerald-700 font-semibold' : 'text-stone-500'}`}>
+                    {lang.native}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 7: Submit Button & Progress */}
           <div className="pt-4 sm:pt-6 border-t border-stone-200">
             {isAnalyzing ? (
               <div className="bg-emerald-50 rounded-2xl p-5 sm:p-6 border border-emerald-200 text-center space-y-3 sm:space-y-4 animate-pulse">

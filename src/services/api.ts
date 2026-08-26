@@ -43,6 +43,7 @@ export async function requestCropAnalysis(input: CropAnalysisInput): Promise<Cro
         duration: input.duration,
         weather: input.weather,
         irrigation: input.irrigation,
+        language: input.language || 'en',
         additionalNotes: input.additionalNotes,
       }),
       signal: controller.signal,

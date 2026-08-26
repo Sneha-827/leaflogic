@@ -19,6 +19,8 @@ export type AssessmentStatus =
 
 export type RiskLevel = 'Low' | 'Moderate' | 'High' | 'Critical' | 'Unknown';
 
+export type Language = 'en' | 'te' | 'hi';
+
 export interface LikelyIssue {
   name: string;
   confidence: number; // 0 to 100
@@ -53,6 +55,7 @@ export interface CropAnalysisInput {
   duration: string;
   weather: string;
   irrigation: string;
+  language?: Language;
   additionalNotes?: string;
   imageMimeType?: string;
 }
