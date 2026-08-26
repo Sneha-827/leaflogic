@@ -1,0 +1,6 @@
+{
+  "name": "LeafLogic",
+  "description": "AI-powered crop health decision-support system with multimodal Gemini analysis, confidence gating, and evidence-based recommendations for farmers.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
