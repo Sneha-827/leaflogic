@@ -52,11 +52,23 @@ export async function requestCropAnalysis(input: CropAnalysisInput): Promise<Cro
     const durationMs = Date.now() - startTime;
 
     if (!response.ok) {
-      const errorBody = await response.json().catch(() => ({}));
-      const errorMessage = errorBody.error || `Server responded with status ${response.status}: ${response.statusText}`;
+      const contentType = response.headers.get('content-type') || '';
+      let errorMessage = `Server responded with status ${response.status}: ${response.statusText}`;
+      
+      if (contentType.includes('application/json')) {
+        const errorBody = await response.json().catch(() => ({}));
+        errorMessage = errorBody.error || errorMessage;
+      } else {
+        const textBody = await response.text().catch(() => '');
+        if (textBody && textBody.length < 200 && !textBody.includes('<!DOCTYPE')) {
+          errorMessage = textBody;
+        } else if (response.status === 404) {
+          errorMessage = 'API endpoint not found (/api/analyze-crop). Please verify serverless API deployment.';
+        }
+      }
 
       if (isDev) {
-        console.error(`[LeafLogic Client API] Request failed (${response.status}) in ${durationMs}ms:`, errorBody);
+        console.error(`[LeafLogic Client API] Request failed (${response.status}) in ${durationMs}ms:`, errorMessage);
       }
 
       if (response.status === 429) {

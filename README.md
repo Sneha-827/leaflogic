@@ -143,8 +143,10 @@ npm run build
 npm start
 ```
 
-### Server Configuration
-The dev server boots on `http://0.0.0.0:3000` via Express + Vite middleware.
+### Server & Serverless Deployment Configuration
+
+- **Local & Container (Docker / Cloud Run)**: Boots on `http://0.0.0.0:3000` using the custom Express server with Vite middleware in development and static bundle serving in production (`npm start`).
+- **Vercel Serverless Deployment**: The app includes native Vercel serverless functions in `/api/analyze-crop.ts` and `/api/health.ts` configured via `vercel.json` rewrites. In Vercel Project Settings, simply set the `GEMINI_API_KEY` Environment Variable.
 
 ---
 
