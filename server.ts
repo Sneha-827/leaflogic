@@ -7,7 +7,8 @@ import express, { Request, Response } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
-import { processCropAnalysis } from './src/server/geminiService';
+import healthHandler from './api/health';
+import analyzeCropHandler from './api/analyze-crop';
 
 dotenv.config();
 
@@ -19,50 +20,14 @@ const isDev = process.env.NODE_ENV !== 'production';
 app.use(express.json({ limit: '25mb' }));
 app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
-// Development diagnostic logger helper
-function devLog(tag: string, message: string, data?: unknown) {
-  if (isDev) {
-    const timestamp = new Date().toISOString().substring(11, 23);
-    if (data !== undefined) {
-      console.log(`[${timestamp}] [LeafLogic-Dev] [${tag}] ${message}`, data);
-    } else {
-      console.log(`[${timestamp}] [LeafLogic-Dev] [${tag}] ${message}`);
-    }
-  }
-}
-
-// Health Check API
+// Health Check API - forward to Vercel/Express compatible handler
 app.get('/api/health', (req: Request, res: Response) => {
-  const hasKey = Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim().length > 0);
-  devLog('HEALTH', `Health check queried. API Key configured: ${hasKey}`);
-  res.json({
-    status: 'ok',
-    service: 'LeafLogic AI Server',
-    primaryModel: 'gemini-3.1-flash-lite',
-    hasApiKey: hasKey,
-    timestamp: new Date().toISOString(),
-  });
+  return healthHandler(req, res);
 });
 
-// Crop Analysis API endpoint
+// Crop Analysis API endpoint - forward to Vercel/Express compatible handler
 app.post('/api/analyze-crop', async (req: Request, res: Response) => {
-  const reqStartTime = Date.now();
-  const requestId = Math.random().toString(36).substring(2, 8);
-
-  try {
-    devLog('REQ-START', `[${requestId}] Incoming crop analysis request for: "${req.body?.cropName || 'unknown'}"`);
-
-    const result = await processCropAnalysis(req.body, requestId);
-
-    devLog('REQ-RESULT', `[${requestId}] Finished with status ${result.statusCode} in ${Date.now() - reqStartTime}ms`);
-    return res.status(result.statusCode).json(result.body);
-  } catch (error: any) {
-    devLog('UNHANDLED-ERR', `[${requestId}] Unhandled exception in /api/analyze-crop:`, error);
-    return res.status(500).json({
-      error: error.message || 'An unexpected internal server error occurred while analyzing the crop.',
-      details: error.toString(),
-    });
-  }
+  return analyzeCropHandler(req, res);
 });
 
 async function startServer() {
